@@ -1,0 +1,245 @@
+/* Reset et base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Container principal */
+.container {
+  min-height: 100vh;
+  position: relative;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.container.visible {
+  opacity: 1;
+}
+
+/* Éléments d'arrière-plan */
+.background-circle {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 0, 128, 0.1) 0%,
+    rgba(128, 0, 255, 0.1) 50%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  filter: blur(80px);
+  z-index: 1;
+  will-change: transform;
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Logo */
+.logo {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  z-index: 4;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Conteneur du compteur */
+.counter-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 4;
+  width: 90%;
+  max-width: 600px;
+}
+
+.counter-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+.counter-value {
+  font-size: 4rem;
+  font-family: monospace;
+  transition: transform 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.counter-value:hover {
+  transform: scale(1.05);
+}
+
+/* Progress Bar */
+.progress-container {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.progress-bar {
+  position: relative;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 128, 0.7),
+    rgba(128, 0, 255, 0.7)
+  );
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progress-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  filter: blur(2px);
+  animation: glowMove 2s ease-in-out infinite;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-family: monospace;
+  opacity: 0.5;
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.progress-current {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 500;
+}
+
+/* Section CTA */
+.cta-section {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  text-align: center;
+}
+
+.cta-text {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.cta-text:hover {
+  opacity: 1;
+}
+
+.message-bubble {
+  position: absolute;
+  bottom: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 1rem 1.5rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  display: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.message-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes glowMove {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(500%);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .counter-value {
+    font-size: 3rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .progress-container {
+    width: 90%;
+    margin: 2rem auto 0;
+  }
+
+  .progress-info {
+    font-size: 0.65rem;
+  }
+
+  .background-circle {
+    width: 600px;
+    height: 600px;
+  }
+}
